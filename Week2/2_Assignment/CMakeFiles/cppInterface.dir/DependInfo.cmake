@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/main.cpp" "/home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/CMakeFiles/cppInterface.dir/main.cpp.o"
+  "/home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/main.cpp" "/home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/CMakeFiles/cppInterface.dir/main.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

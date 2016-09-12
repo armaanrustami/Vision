@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment
+CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment
+CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment
 
 # Include any dependencies generated for this target.
 include CMakeFiles/cppInterface.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/cppInterface.dir/flags.make
 
 CMakeFiles/cppInterface.dir/main.cpp.o: CMakeFiles/cppInterface.dir/flags.make
 CMakeFiles/cppInterface.dir/main.cpp.o: main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/cppInterface.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cppInterface.dir/main.cpp.o -c /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/main.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cppInterface.dir/main.cpp.o -c /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/main.cpp
 
 CMakeFiles/cppInterface.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppInterface.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/main.cpp > CMakeFiles/cppInterface.dir/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/main.cpp > CMakeFiles/cppInterface.dir/main.cpp.i
 
 CMakeFiles/cppInterface.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppInterface.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/main.cpp -o CMakeFiles/cppInterface.dir/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/main.cpp -o CMakeFiles/cppInterface.dir/main.cpp.s
 
 CMakeFiles/cppInterface.dir/main.cpp.o.requires:
 .PHONY : CMakeFiles/cppInterface.dir/main.cpp.o.requires
@@ -136,6 +136,6 @@ CMakeFiles/cppInterface.dir/clean:
 .PHONY : CMakeFiles/cppInterface.dir/clean
 
 CMakeFiles/cppInterface.dir/depend:
-	cd /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Week2/2_Assignment/CMakeFiles/cppInterface.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment /home/armaan/Documents/MINOR/Computer_Vision/Vision/Week2/2_Assignment/CMakeFiles/cppInterface.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/cppInterface.dir/depend
 
