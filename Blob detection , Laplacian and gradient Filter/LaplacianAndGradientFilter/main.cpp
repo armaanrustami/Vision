@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
  Mat Smoothblur = (Mat_<float>(3,3) << 
   1,  1, 1,
   1, 1, 1,
-  1,  -1, 1); 
+  1, 1, 1); 
  Mat kernel = (Mat_<float>(3,3) << 
   0,  -1, 0,
   -1, 4, -1,
