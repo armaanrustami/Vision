@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform
+CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/circle_detection
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform
+CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/circle_detection
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/CMakeFiles /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/circle_detection/CMakeFiles /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/circle_detection/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Hough_Transform/circle_detection/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -99,24 +99,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named detectLines
+# Target rules for targets named detectCircles
 
 # Build rule for target.
-detectLines: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 detectLines
-.PHONY : detectLines
+detectCircles: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 detectCircles
+.PHONY : detectCircles
 
 # fast build rule for target.
-detectLines/fast:
-	$(MAKE) -f CMakeFiles/detectLines.dir/build.make CMakeFiles/detectLines.dir/build
-.PHONY : detectLines/fast
+detectCircles/fast:
+	$(MAKE) -f CMakeFiles/detectCircles.dir/build.make CMakeFiles/detectCircles.dir/build
+.PHONY : detectCircles/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/detectLines.dir/build.make CMakeFiles/detectLines.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/detectCircles.dir/build.make CMakeFiles/detectCircles.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -124,7 +124,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/detectLines.dir/build.make CMakeFiles/detectLines.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/detectCircles.dir/build.make CMakeFiles/detectCircles.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -132,7 +132,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/detectLines.dir/build.make CMakeFiles/detectLines.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/detectCircles.dir/build.make CMakeFiles/detectCircles.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -141,7 +141,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... detectLines"
+	@echo "... detectCircles"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main.o"
