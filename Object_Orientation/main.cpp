@@ -141,19 +141,15 @@ void DrawRect(int indexOfBiggestArea , vector<vector<Point> > contours ) {
   cv::line(drawing, corners[2], corners[3], cv::Scalar(255, 255, 255));
   cv::line(drawing, corners[3], corners[0], cv::Scalar(255, 255, 255));
 
-  float blob_angle_deg = boundingBox.angle;
-  if (boundingBox.size.width < boundingBox.size.height) {
-    blob_angle_deg = 90 + blob_angle_deg;
-  }
-  Mat mapMatrix = getRotationMatrix2D(COG, blob_angle_deg, 1.0);
+ 
   for (int i = 0; i < 4; i++) {
-    vertVect.push_back(corners[i] + Point2f(200, 0));
+    vertVect.push_back(corners[i]);
   }
   calculatedRect = minAreaRect(vertVect);
   stringstream ss (stringstream::in | stringstream::out);
-  if (calculatedRect.angle < -1) ss << calculatedRect.angle*(-1) + 90;
+  if (calculatedRect.size.width<calculatedRect.size.height) ss << 90-calculatedRect.angle;
   else
-    ss << calculatedRect.angle*(-1);
+    ss << -calculatedRect.angle;
 
   string deg = ss.str() + " degrees";
 
