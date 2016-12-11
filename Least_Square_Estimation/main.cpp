@@ -14,6 +14,7 @@ void getFourPointsOnLines();
 bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt);
 double cross(Point v1,Point v2);
 bool checkingIfExist(Point p);
+void DrawLine(Mat img);
 vector<Vec2f> lines;
 
 char currentLabel ='A';
@@ -26,100 +27,34 @@ std::vector<Point> IntersectionPoints;
 
 int main(int argc, char** argv)
 {
- const char* filename = argc >= 2 ? argv[1] : "ImageA.jpg";
- img_original = imread(filename, 1);
- if(img_original.empty())
- {
-   cout << "can not open " << filename << endl;
-   return -1;
- }
  
- Mat grayimage;
-  cvtColor(img_original, grayimage, CV_BGR2GRAY);
-     GaussianBlur( img_original, grayimage, Size( 3, 3), 0, 0 );
-    Canny( grayimage, grayimage, 100, 255 );
+ Mat frameA=imread("ImageA.jpg",1);
+ Mat frameB= imread("ImageB.jpg", 1);
 
+ 
+ Mat grayimageA,grayimageB;
+ cvtColor(frameA, grayimageA, CV_BGR2GRAY);
+     GaussianBlur( frameA, grayimageA, Size( 5 ,5), 0, 0 );
+    grayimageA= erode_Dilate( grayimageA);
+    Canny( grayimageA, grayimageA, 100, 255 );
 
-  imshow("gray",grayimage);
-vector<vector<Point> > contours_hull;vector<Vec4i> hierarchy;
-
-findContours(grayimage.clone(), contours_hull, hierarchy, CV_RETR_TREE, true, Point(0, 0));
-//findContours(grayimage.clone(),contours_hull, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-vector<vector<Point> > contours_poly(contours_hull.size());  //vector<Point> ConvexHullPoints =  contoursConvexHull(contours_hull);
-vector<Rect> boundRect(contours_hull.size());
- vector<Point2f>center(contours_hull.size());
-    vector<float>radius(contours_hull.size());
+  cvtColor(frameB, grayimageB, CV_BGR2GRAY);
+     GaussianBlur( frameB, grayimageB, Size( 5 ,5), 0, 0 );
+    grayimageB= erode_Dilate( grayimageB);
+    Canny( grayimageB, grayimageB, 100, 255 );
 
    
-  HoughLines(grayimage, lines, 0.91, CV_PI/178, 92, 0, 0 );
+  HoughLines(grayimageA, lines, 0.855, CV_PI/179.5, 95, 0, 0 );
+  DrawLine(frameA);
 
-  for( size_t i = 0; i < lines.size(); i++ )
-  {
-     float rho = lines[i][0], theta = lines[i][1];
-     Point pt1, pt2;
-     double a = cos(theta), b = sin(theta);
-     double x0 = a*rho, y0 = b*rho;
-     pt1.x = cvRound(x0 + 1000*(-b));
-     pt1.y = cvRound(y0 + 1000*(a));
-     pt2.x = cvRound(x0 - 1000*(-b));
-     pt2.y = cvRound(y0 - 1000*(a));
-     line( img_original, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
-  }
+  HoughLines(grayimageB, lines, 0.882, CV_PI/180.5, 90, 0, 0 );
+  DrawLine(frameB);
 
-  getFourPointsOnLines();
-  labelling();
-  cout<<"Intersection size: "<<IntersectionPoints.size()<<endl;
-    //   polylines( img_original, ConvexHullPoints, true, Scalar(0,0,255), 2 );
-    // imshow("Contours", drawing);
-// for (int i = 0; i < contours_hull.size(); ++i)
-// {
-//     /* code */
-  
-//      double len2 = arcLength(contours_hull[i], true);
-//      approxPolyDP(Mat(contours_hull[i]), contours_poly[i], 3, true);
-//      cout<<contours_poly[i]<<endl;
-//      if(contours_poly[i].size()==4){
-//      approxPolyDP(Mat(contours_hull[i]), contours_poly[i], 3, true);
-//    boundRect[i] = boundingRect(Mat(contours_poly[i]));
-//    minEnclosingCircle((Mat) contours_poly[i], center[i], radius[i]);
-//   drawContours(img_original, contours_hull, i, Scalar(0, 0, 255), 2, 8, hierarchy, 0, Point());}
-     
-// }
-imshow("original",img_original);
-
-//cout<<contours_hull.size()<<endl;
-
-  // approxPolyDP(Mat(contours[indexOfBiggestArea]), contours_poly[indexOfBiggestArea], 3, true);
-  // //  boundRect[indexOfBiggestArea] = boundingRect(Mat(contours_poly[indexOfBiggestArea]));
-  // minEnclosingCircle((Mat) contours_poly[indexOfBiggestArea], center[indexOfBiggestArea], radius[indexOfBiggestArea]);
-  // //  drawContours(drawing, contours, indexOfBiggestArea, Scalar(0, 0, 255), 2, 8, hierarchy, 0, Point());
-
-//imshow("closing_gaps",erode_Dilate(grayimage));
-
-
-
-
- // FilterImage(grayimage);
+imshow("frameA",frameA);
+imshow("frameB",frameB);
+  //getFourPointsOnLines();
+ // labelling();
  
- // HoughLines(grayimage, lines, 0.7, 2.61*M_PI/180, 65, 0, 0 );
- // final_image = img_original.clone();
-
-
- // for( size_t i = 0; i < lines.size(); i++ )
- // {
- //   float rho = lines[i][0], theta = lines[i][1];
- //   Point pt1, pt2;
- //   double a = cos(theta), b = sin(theta);
- //   double x0 = a*rho, y0 = b*rho;
- //   pt1.x = cvRound(x0 + 1000*(-b));
- //   pt1.y = cvRound(y0 + 1000*(a));
- //   pt2.x = cvRound(x0 - 1000*(-b));
- //   pt2.y = cvRound(y0 - 1000*(a));
- //   line( final_image, pt1, pt2, Scalar(0,0,255), 1, CV_AA);
- // }
- // getFourPointsOnLines();
-
- cout<<"Intersection size: "<<IntersectionPoints.size()<<endl;
  waitKey();
  return 0;
 }
@@ -245,12 +180,30 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
 
   Mat erode_Dilate(Mat img) {
 //i//mshow("gaps",img);
-    Mat erodeElement = getStructuringElement(MORPH_RECT, Size(3, 3));
+    Mat erodeElement = getStructuringElement(MORPH_RECT, Size(5, 5));
     Mat dilateElement = getStructuringElement(MORPH_RECT, Size(7, 7));
   // erode(img, img, erodeElement);
    dilate(img, img, dilateElement);
    // imshow("gaps",img);
     return img;
 
+
+}
+
+void DrawLine(Mat img){
+
+
+   for( size_t i = 0; i < lines.size(); i++ )
+  {
+     float rho = lines[i][0], theta = lines[i][1];
+     Point pt1, pt2;
+     double a = cos(theta), b = sin(theta);
+     double x0 = a*rho, y0 = b*rho;
+     pt1.x = cvRound(x0 + 1000*(-b));
+     pt1.y = cvRound(y0 + 1000*(a));
+     pt2.x = cvRound(x0 - 1000*(-b));
+     pt2.y = cvRound(y0 - 1000*(a));
+     line( img, pt1, pt2, Scalar(0,0,255), 1, CV_AA);
+  }
 
 }
