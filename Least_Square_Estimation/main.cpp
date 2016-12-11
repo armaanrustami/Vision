@@ -63,12 +63,38 @@ int main(int argc, char** argv)
   cout<<PointsB<<endl;
    Mat h =cv::findHomography(PointsA,PointsB);
 cout<<"Find Homography"<<endl<<h<<endl;
-imshow("frameA",frameA);
-imshow("frameB",frameB);
+
 Mat inverse=h.inv();
 Mat im_dst;
-warpPerspective(frameB, im_dst, inverse, im_dst.size());
-imshow("DF",im_dst);
+warpPerspective(frameB, im_dst, inverse, frameA.size());
+Mat diff_Image;
+
+ cv::absdiff(im_dst, frameA, diff_Image);
+
+    cv::Mat foregroundMask = cv::Mat::zeros(diff_Image.rows, diff_Image.cols, CV_8UC1);
+
+    float threshold = 150.0f;
+    float dist;
+
+    for(int j=0; j<diff_Image.rows; ++j)
+        for(int i=0; i<diff_Image.cols; ++i)
+        {
+            cv::Vec3b pix = diff_Image.at<cv::Vec3b>(j,i);
+
+            dist = (pix[0]*pix[0] + pix[1]*pix[1] + pix[2]*pix[2]);
+            dist = sqrt(dist);
+
+            if(dist>threshold)
+            {
+                foregroundMask.at<unsigned char>(j,i) = 255;
+            }
+        }
+imshow("frameA",frameA);
+imshow("frameB",frameB);
+imshow("Transformed",im_dst);
+imshow("Difference",diff_Image);
+imshow("real diff",foregroundMask);
+
   //getFourPointsOnLines();
  
  

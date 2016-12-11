@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_SOURCE_DIR = /home/viki/Vision/Least_Square_Estimation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_BINARY_DIR = /home/viki/Vision/Least_Square_Estimation
 
 #=============================================================================
 # Target rules for target CMakeFiles/cppInterface.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Squ
 CMakeFiles/cppInterface.dir/all:
 	$(MAKE) -f CMakeFiles/cppInterface.dir/build.make CMakeFiles/cppInterface.dir/depend
 	$(MAKE) -f CMakeFiles/cppInterface.dir/build.make CMakeFiles/cppInterface.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/viki/Vision/Least_Square_Estimation/CMakeFiles  1
 	@echo "Built target cppInterface"
 .PHONY : CMakeFiles/cppInterface.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/cppInterface.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cppInterface.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/viki/Vision/Least_Square_Estimation/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/cppInterface.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/viki/Vision/Least_Square_Estimation/CMakeFiles 0
 .PHONY : CMakeFiles/cppInterface.dir/rule
 
 # Convenience name for target.

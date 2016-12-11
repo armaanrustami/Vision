@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_SOURCE_DIR = /home/viki/Vision/Least_Square_Estimation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_BINARY_DIR = /home/viki/Vision/Least_Square_Estimation
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/viki/Vision/Least_Square_Estimation/CMakeFiles /home/viki/Vision/Least_Square_Estimation/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/viki/Vision/Least_Square_Estimation/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

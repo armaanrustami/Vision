@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_SOURCE_DIR = /home/viki/Vision/Least_Square_Estimation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation
+CMAKE_BINARY_DIR = /home/viki/Vision/Least_Square_Estimation
 
 # Include any dependencies generated for this target.
 include CMakeFiles/cppInterface.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/cppInterface.dir/flags.make
 
 CMakeFiles/cppInterface.dir/main.cpp.o: CMakeFiles/cppInterface.dir/flags.make
 CMakeFiles/cppInterface.dir/main.cpp.o: main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/viki/Vision/Least_Square_Estimation/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/cppInterface.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cppInterface.dir/main.cpp.o -c /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/main.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cppInterface.dir/main.cpp.o -c /home/viki/Vision/Least_Square_Estimation/main.cpp
 
 CMakeFiles/cppInterface.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppInterface.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/main.cpp > CMakeFiles/cppInterface.dir/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/viki/Vision/Least_Square_Estimation/main.cpp > CMakeFiles/cppInterface.dir/main.cpp.i
 
 CMakeFiles/cppInterface.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppInterface.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/main.cpp -o CMakeFiles/cppInterface.dir/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/viki/Vision/Least_Square_Estimation/main.cpp -o CMakeFiles/cppInterface.dir/main.cpp.s
 
 CMakeFiles/cppInterface.dir/main.cpp.o.requires:
 .PHONY : CMakeFiles/cppInterface.dir/main.cpp.o.requires
@@ -81,45 +81,35 @@ cppInterface_EXTERNAL_OBJECTS =
 
 cppInterface: CMakeFiles/cppInterface.dir/main.cpp.o
 cppInterface: CMakeFiles/cppInterface.dir/build.make
-cppInterface: /usr/local/lib/libopencv_videostab.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_video.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_ts.a
-cppInterface: /usr/local/lib/libopencv_superres.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_stitching.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_photo.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_ocl.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_objdetect.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_nonfree.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_ml.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_legacy.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_imgproc.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_highgui.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_gpu.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_flann.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_features2d.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_core.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_contrib.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_calib3d.so.2.4.13
-cppInterface: /usr/lib/i386-linux-gnu/libGLU.so
-cppInterface: /usr/lib/i386-linux-gnu/libGL.so
-cppInterface: /usr/lib/i386-linux-gnu/libSM.so
-cppInterface: /usr/lib/i386-linux-gnu/libICE.so
-cppInterface: /usr/lib/i386-linux-gnu/libX11.so
-cppInterface: /usr/lib/i386-linux-gnu/libXext.so
-cppInterface: /usr/local/lib/libopencv_nonfree.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_ocl.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_gpu.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_photo.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_objdetect.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_legacy.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_video.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_ml.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_calib3d.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_features2d.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_highgui.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_imgproc.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_flann.so.2.4.13
-cppInterface: /usr/local/lib/libopencv_core.so.2.4.13
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_video.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_ts.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_ocl.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_legacy.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_gpu.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_core.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_contrib.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_legacy.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_video.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.2.4.8
+cppInterface: /usr/lib/x86_64-linux-gnu/libopencv_core.so.2.4.8
 cppInterface: CMakeFiles/cppInterface.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable cppInterface"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cppInterface.dir/link.txt --verbose=$(VERBOSE)
@@ -136,6 +126,6 @@ CMakeFiles/cppInterface.dir/clean:
 .PHONY : CMakeFiles/cppInterface.dir/clean
 
 CMakeFiles/cppInterface.dir/depend:
-	cd /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation /home/armaan/Documents/MINOR/Computer_Vision/Vision/Least_Square_Estimation/CMakeFiles/cppInterface.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/viki/Vision/Least_Square_Estimation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/viki/Vision/Least_Square_Estimation /home/viki/Vision/Least_Square_Estimation /home/viki/Vision/Least_Square_Estimation /home/viki/Vision/Least_Square_Estimation /home/viki/Vision/Least_Square_Estimation/CMakeFiles/cppInterface.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/cppInterface.dir/depend
 
