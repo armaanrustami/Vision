@@ -18,6 +18,7 @@ bool checkingIfExist(Point p);
 void DrawLine(Mat img);
 Mat frameA,frameB;
 vector<Vec2f> lines;
+vector<Point2f> orderCordinates(vector<Point2f> points, int a,int b,int c,int d);
 
 char currentLabel ='A';
 Mat img_original, img_blur,img_edge, final_image;
@@ -55,10 +56,19 @@ int main(int argc, char** argv)
   getFourPointsOnLines(PointsB);
   cout<<PointsA<<endl;
   cout<<PointsB<<endl;
+ PointsA= orderCordinates(PointsA,1,3,2,0);
+ PointsB=orderCordinates(PointsB,2,0,1,3);
+ cout<<"After order"<<endl;
+ cout<<PointsA<<endl;
+  cout<<PointsB<<endl;
    Mat h =cv::findHomography(PointsA,PointsB);
 cout<<"Find Homography"<<endl<<h<<endl;
 imshow("frameA",frameA);
 imshow("frameB",frameB);
+Mat inverse=h.inv();
+Mat im_dst;
+warpPerspective(frameB, im_dst, inverse, im_dst.size());
+imshow("DF",im_dst);
   //getFourPointsOnLines();
  
  
@@ -125,11 +135,14 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
       if (!checkingIfExist(intPnt))
       {      
       //  cout<<intPnt<<endl;
+           ostringstream ss;
+           ss<<currentLabel;
+       std::string s= ss.str();
         circle(img_original,intPnt, 5, Scalar(0,0,255), 2, CV_AA,0 );
-        // putText(final_image, "A", Point(intPnt.x+8,intPnt.y+5), 1, 1.2, Scalar(0,0,255), 1, 8, false );
+       // putText(frameB, s, Point(intPnt.x+8,intPnt.y+5), 1, 1.2, Scalar(0,0,255), 1, 8, false );
         IntersectionPoints.push_back(intPnt);
         v.push_back(intPnt);
-
+        currentLabel++;
       }
     }
 
@@ -215,4 +228,24 @@ void DrawLine(Mat img){
      line( img, pt1, pt2, Scalar(0,0,255), 1, CV_AA);
   }
 
+}
+
+vector<Point2f> orderCordinates(vector<Point2f> points, int a,int b,int c,int d){
+    
+    Point2f A,B,C,D;
+    
+    A=points[a];
+    B=points[b];
+    C=points[c];
+    D=points[d];
+    
+    vector<Point2f> temp;
+    temp.push_back(A);
+    temp.push_back(B);
+    temp.push_back(C);
+    temp.push_back(D);
+    return temp;
+    
+    
+    
 }
