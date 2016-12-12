@@ -1,6 +1,7 @@
 
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/calib3d/calib3d.hpp"
 
 #include <iostream>
 
@@ -10,15 +11,17 @@ using namespace std;
  Mat erode_Dilate(Mat img);
 void FilterImage(Mat img_original);
 void labelling();
-void getFourPointsOnLines();
-bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt);
+void getFourPointsOnLines(std::vector<Point2f> & v);
+bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt,std::vector<Point2f> & v);
 double cross(Point v1,Point v2);
 bool checkingIfExist(Point p);
 void DrawLine(Mat img);
+Mat frameA,frameB;
 vector<Vec2f> lines;
 
 char currentLabel ='A';
 Mat img_original, img_blur,img_edge, final_image;
+std::vector<Point2f> PointsA,PointsB;
 
 Point  intPnt;
 std::vector<std::string> labels;
@@ -28,8 +31,8 @@ std::vector<Point> IntersectionPoints;
 int main(int argc, char** argv)
 {
  
- Mat frameA=imread("ImageA.jpg",1);
- Mat frameB= imread("ImageB.jpg", 1);
+  frameA=imread("ImageA.jpg",1);
+  frameB= imread("ImageB.jpg", 1);
 
  
  Mat grayimageA,grayimageB;
@@ -46,14 +49,18 @@ int main(int argc, char** argv)
    
   HoughLines(grayimageA, lines, 0.855, CV_PI/179.5, 95, 0, 0 );
   DrawLine(frameA);
-
+  getFourPointsOnLines(PointsA);
   HoughLines(grayimageB, lines, 0.882, CV_PI/180.5, 90, 0, 0 );
   DrawLine(frameB);
-
+  getFourPointsOnLines(PointsB);
+  cout<<PointsA<<endl;
+  cout<<PointsB<<endl;
+   Mat h =cv::findHomography(PointsA,PointsB);
+cout<<"Find Homography"<<endl<<h<<endl;
 imshow("frameA",frameA);
 imshow("frameB",frameB);
   //getFourPointsOnLines();
- // labelling();
+ 
  
  waitKey();
  return 0;
@@ -63,7 +70,7 @@ void FilterImage(Mat img_original)
   cv::GaussianBlur(img_original, img_blur, Size(3,3),1);
   cv::Canny(img_blur,img_edge, 110,255,3, true);
 }
-void getFourPointsOnLines()
+void getFourPointsOnLines(std::vector<Point2f> & v)
 {
   for( size_t i = 0; i < lines.size(); i++ )
   {
@@ -89,7 +96,7 @@ void getFourPointsOnLines()
       pt3.y = cvRound(y02 +1000 *(a2));
       pt4.x = cvRound(x02 -1000 *(-b2));
       pt4.y = cvRound(y02 - 1000 *(a2));
-      getIntersectionPoint(pt1, pt2, pt3, pt4, intPnt);
+      getIntersectionPoint(pt1, pt2, pt3, pt4, intPnt,v);
     }
 
   }
@@ -101,7 +108,7 @@ cout<<"Number of lines: "<<lines.size()<<endl;
 //imshow("detected lines", final_image);
 
 }
-bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt){
+bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt,std::vector<Point2f> &v){
   Point p = a1;
   Point q = b1;
   Point r(a2-a1);
@@ -117,10 +124,12 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
     {
       if (!checkingIfExist(intPnt))
       {      
-        cout<<intPnt<<endl;
+      //  cout<<intPnt<<endl;
         circle(img_original,intPnt, 5, Scalar(0,0,255), 2, CV_AA,0 );
         // putText(final_image, "A", Point(intPnt.x+8,intPnt.y+5), 1, 1.2, Scalar(0,0,255), 1, 8, false );
         IntersectionPoints.push_back(intPnt);
+        v.push_back(intPnt);
+
       }
     }
 
@@ -146,7 +155,7 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
   void labelling()
   {
     Point ptToUse;
-    for (int i = 0; i < IntersectionPoints.size(); i++)
+    for (int i = 0; i < PointsA.size(); i++)
     {
       if (IntersectionPoints[i].x<300 &&IntersectionPoints[i].x>=20 &&IntersectionPoints[i].y>=20&&IntersectionPoints[i].y<300)
       {
@@ -171,7 +180,7 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
       ostringstream ss;
        ss<<currentLabel;
        std::string s= ss.str();
-      putText(img_original, s,ptToUse, 1, 1.2, Scalar(0,255,0), 2, 8, false );
+      putText(frameA, s,ptToUse, 1, 1.2, Scalar(0,255,0), 2, 8, false );
       currentLabel++;
 
     }
