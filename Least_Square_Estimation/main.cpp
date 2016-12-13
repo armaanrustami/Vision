@@ -16,6 +16,13 @@ bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt
 double cross(Point v1,Point v2);
 bool checkingIfExist(Point p);
 void DrawLine(Mat img);
+Mat getMatrixA(vector<Point2f> pointsA);
+Mat getMatrixB(vector<Point2f> pointsB);
+Mat getMatrix_X(cv::Mat inverse_matrixA, cv::Mat matrixB);
+Mat getMatrix_PseudoInverse(cv::Mat matrixA);
+double getaCos(double c);
+Mat getMatrix_Transform(cv::Mat transf, double theta);
+
 Mat frameA,frameB;
 vector<Vec2f> lines;
 vector<Point2f> orderCordinates(vector<Point2f> points, int a,int b,int c,int d);
@@ -54,23 +61,35 @@ int main(int argc, char** argv)
   HoughLines(grayimageB, lines, 0.882, CV_PI/180.5, 90, 0, 0 );
   DrawLine(frameB);
   getFourPointsOnLines(PointsB);
-  cout<<PointsA<<endl;
-  cout<<PointsB<<endl;
+ // cout<<PointsA<<endl;
+  //cout<<PointsB<<endl;
  PointsA= orderCordinates(PointsA,1,3,2,0);
  PointsB=orderCordinates(PointsB,2,0,1,3);
  cout<<"After order"<<endl;
  cout<<PointsA<<endl;
   cout<<PointsB<<endl;
    Mat h =cv::findHomography(PointsA,PointsB);
-cout<<"Find Homography"<<endl<<h<<endl;
+ //cout<<"Find Homography"<<endl<<h<<endl;
 
-Mat inverse=h.inv();
-Mat im_dst;
-warpPerspective(frameB, im_dst, inverse, frameA.size());
-Mat diff_Image;
+    Mat inverse=h.inv();
+    Mat im_dst= cv::Mat::zeros(frameB.rows, frameB.cols, frameA.type());
+    //getMatrixA(PointsA);
+    //getMatrixB(PointsB);
+    Mat matTransFormed= getMatrix_X(getMatrix_PseudoInverse(getMatrixA(PointsA)), getMatrixB(PointsB));
+    double theta =getaCos(matTransFormed.at<double>(0,0));
+    
+    cout<<"Theta value: "<<endl<<theta<<endl;
+    
+//    getMatrix_Transform(matTransFormed,theta);
+    
+    //warpPerspective(frameB, im_dst, getMatrix_Transform(matTransFormed,theta), frameA.size());
+    warpPerspective(frameB, im_dst, inverse, frameA.size());
+  //  warpAffine(frameB, im_dst, getMatrix_Transform(matTransFormed,theta), im_dst.size());
 
- cv::absdiff(im_dst, frameA, diff_Image);
+cv::Mat diff_Image= cv::Mat::zeros(frameB.rows, frameB.cols, frameA.type());
 
+ cv::absdiff(frameA,im_dst,  diff_Image);
+//
     cv::Mat foregroundMask = cv::Mat::zeros(diff_Image.rows, diff_Image.cols, CV_8UC1);
 
     float threshold = 150.0f;
@@ -89,6 +108,7 @@ Mat diff_Image;
                 foregroundMask.at<unsigned char>(j,i) = 255;
             }
         }
+
 imshow("frameA",frameA);
 imshow("frameB",frameB);
 imshow("Transformed",im_dst);
@@ -96,8 +116,6 @@ imshow("Difference",diff_Image);
 imshow("real diff",foregroundMask);
 
   //getFourPointsOnLines();
- 
- 
  waitKey();
  return 0;
 }
@@ -270,8 +288,144 @@ vector<Point2f> orderCordinates(vector<Point2f> points, int a,int b,int c,int d)
     temp.push_back(B);
     temp.push_back(C);
     temp.push_back(D);
-    return temp;
-    
-    
+    return temp;   
     
 }
+
+Mat getMatrixA(vector<Point2f> pointsA)
+{ 
+    
+    int rows =8;
+    int cols =4;
+    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+  
+   p1.at<double>(0,0) = pointsA[0].x;
+   p1.at<double>(0,1) = -pointsA[0].y;
+   p1.at<double>(0,2) = 1;
+   p1.at<double>(0,3) = 0;
+  
+   p1.at<double>(1,0) = pointsA[0].y;
+   p1.at<double>(1,1) = pointsA[0].x;
+   p1.at<double>(1,2) = 0;
+   p1.at<double>(1,3) = 1;
+   
+  
+   p1.at<double>(2,0) = pointsA[1].x;
+   p1.at<double>(2,1) = -pointsA[1].y;
+   p1.at<double>(2,2) = 1;
+   p1.at<double>(2,3) = 0;
+  
+   p1.at<double>(3,0) = pointsA[1].y;
+   p1.at<double>(3,1) = pointsA[1].x;
+   p1.at<double>(3,2) = 0;
+   p1.at<double>(3,3) = 1;
+   
+   
+   p1.at<double>(4,0) = pointsA[2].x;
+   p1.at<double>(4,1) = -pointsA[2].y;
+   p1.at<double>(4,2) = 1;
+   p1.at<double>(4,3) = 0;
+  
+   p1.at<double>(5,0) = pointsA[2].y;
+   p1.at<double>(5,1) = pointsA[2].x;
+   p1.at<double>(5,2) = 0;
+   p1.at<double>(5,3) = 1;
+   
+   
+   p1.at<double>(6,0) = pointsA[3].x;
+   p1.at<double>(6,1) = -pointsA[3].y;
+   p1.at<double>(6,2) = 1;
+   p1.at<double>(6,3) = 0;
+  
+   p1.at<double>(7,0) = pointsA[3].y;
+   p1.at<double>(7,1) = pointsA[3].x;
+   p1.at<double>(7,2) = 0;
+   p1.at<double>(7,3) = 1;
+   
+
+     cout<<endl<<"Matrix A Normal : "<<endl<<p1<<endl<<endl;
+     cout<<"Matrix A Transposed : "<<endl<<p1.t()<<endl<<endl;
+    return p1;
+}
+
+Mat getMatrixB(vector<Point2f> pointsB)
+{ 
+    
+    int rows =8;
+    int cols =1;
+   cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+   p1.at<double>(0,0) = pointsB[0].x;
+   p1.at<double>(1,0) = pointsB[0].y;
+   p1.at<double>(2,0) = pointsB[1].x;
+   p1.at<double>(3,0) = pointsB[1].y;  
+   p1.at<double>(4,0) = pointsB[2].x;
+   p1.at<double>(5,0) = pointsB[2].y;  
+   p1.at<double>(6,0) = pointsB[3].x;
+   p1.at<double>(7,0) = pointsB[3].y;
+  
+    cout<<"Matrix B: "<<endl<<p1<<endl;
+   
+    return p1;
+}
+
+Mat getMatrix_PseudoInverse(cv::Mat matrixA)
+{ 
+    
+    int rows =8;
+    int cols =1;
+    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+    
+    p1=matrixA.t();
+    p1 *=matrixA;
+    p1 = p1.inv();
+    p1 *=matrixA.t();
+    return p1;
+}
+
+Mat getMatrix_X(cv::Mat inverse_matrixA, cv::Mat matrixB)
+{   
+    int rows =8;
+    int cols =1;
+    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+    p1 =inverse_matrixA *matrixB;
+    
+    cout<<"Transformed X matrix: "<<endl<<p1<<endl;
+    return p1;
+}
+
+double getaCos(double c)
+{
+    return acos(c);
+}
+
+Mat getMatrix_Transform(cv::Mat transf, double theta)
+{   
+    int rows =3;
+    int cols =3;
+    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+   
+   p1.at<double>(0,0) = cos(theta); 
+   p1.at<double>(0,1) = -sin(theta);
+   p1.at<double>(0,2) =  transf.at<double>(2,0);
+
+   p1.at<double>(1,0) = sin(theta); 
+   p1.at<double>(1,1) = cos(theta);
+   p1.at<double>(1,2) = transf.at<double>(3,0);
+//   
+    
+  /*  p1.at<double>(0,0) = 0.9999999999; 
+   p1.at<double>(0,1) = 0.23382937339;
+   p1.at<double>(0,2) =  0;
+
+   p1.at<double>(1,0) = -0.23382937339; 
+   p1.at<double>(1,1) = 0.999999999;
+   p1.at<double>(1,2) = 0;*/
+   
+   p1.at<double>(2,0) = 0; 
+   p1.at<double>(2,1) = 0;
+   p1.at<double>(2,2) = 1;
+   
+    cout<<"Transformed matrix: "<<endl<<p1<<endl;
+    return p1;
+}
+
