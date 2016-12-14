@@ -4,6 +4,7 @@
 #include "opencv2/calib3d/calib3d.hpp"
 
 #include <iostream>
+#include <fstream>
 
 using namespace cv;
 using namespace std;
@@ -35,6 +36,8 @@ Point  intPnt;
 std::vector<std::string> labels;
 std::vector<Point> IntersectionPoints;
 
+  std::ofstream outfile;
+
 
 int main(int argc, char** argv)
 {
@@ -65,7 +68,9 @@ int main(int argc, char** argv)
  PointsA= orderCordinates(PointsA,1,3,2,0);
  PointsB=orderCordinates(PointsB,2,0,1,3);
  cout<<"After order"<<endl;
- cout<<PointsA<<endl;
+
+  
+  cout<<PointsA<<endl;
   cout<<PointsB<<endl;
    Mat h =cv::findHomography(PointsA,PointsB);
 
@@ -83,6 +88,21 @@ int main(int argc, char** argv)
    tx= matTransFormed.at<double>(2,0);
    ty=matTransFormed.at<double>(3,0);
    matFinalTransform =getMatrix_Transform(matTransFormed,theta,tx,ty);
+   
+   
+  outfile.open("data.txt", std::ios_base::app);
+  outfile <<"Points from ImageA:"<<endl<<endl<< PointsA<<endl<<endl; 
+  outfile <<"Points from ImageB:"<<endl<<endl<< PointsB<<endl<<endl; 
+  outfile <<"Matrix A:"<<endl<<endl<< matrixA<<endl<<endl;
+  outfile <<"Matrix B:"<<endl<<endl<< matrixB<<endl<<endl;
+  outfile <<"Pseudo inverse Matrix :"<<endl<<endl<< pseudoInvMat<<endl<<endl;
+  outfile <<"Matrix X:"<<endl<<endl<< matTransFormed<<endl<<endl;
+  outfile <<"tx :"<< tx<<endl<<endl;
+  outfile <<"ty :"<< ty<<endl<<endl;
+  outfile <<"theta :"<< theta<<endl<<endl;
+  outfile <<" Final transformation matrix :"<<endl<<endl<< matFinalTransform<<endl<<endl;
+  
+  outfile.close();
 
     cout<<"Theta value: "<<endl<<theta<<endl;
 
@@ -406,11 +426,11 @@ Mat getMatrix_Transform(cv::Mat transf, float theta, float tx, float ty)
    
    p1.at<float>(0,0) = cos(theta); 
    p1.at<float>(0,1) = -sin(theta);
-   p1.at<float>(0,2) =  6; //6
+   p1.at<float>(0,2) = tx; //6
 
    p1.at<float>(1,0) = sin(theta); 
    p1.at<float>(1,1) = cos(theta);
-   p1.at<float>(1,2) = -75; //-75
+   p1.at<float>(1,2) = ty; //-75
 //   
 
    
