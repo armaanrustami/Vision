@@ -20,8 +20,8 @@ Mat getMatrixA(vector<Point2f> pointsA);
 Mat getMatrixB(vector<Point2f> pointsB);
 Mat getMatrix_X(cv::Mat inverse_matrixA, cv::Mat matrixB);
 Mat getMatrix_PseudoInverse(cv::Mat matrixA);
-double getaCos(double c);
-Mat getMatrix_Transform(cv::Mat transf, double theta);
+float getaCos(float c);
+Mat getMatrix_Transform(cv::Mat transf, float theta, float tx, float ty);
 
 Mat frameA,frameB;
 vector<Vec2f> lines;
@@ -61,36 +61,39 @@ int main(int argc, char** argv)
   HoughLines(grayimageB, lines, 0.882, CV_PI/180.5, 90, 0, 0 );
   DrawLine(frameB);
   getFourPointsOnLines(PointsB);
- // cout<<PointsA<<endl;
-  //cout<<PointsB<<endl;
+
  PointsA= orderCordinates(PointsA,1,3,2,0);
  PointsB=orderCordinates(PointsB,2,0,1,3);
  cout<<"After order"<<endl;
  cout<<PointsA<<endl;
   cout<<PointsB<<endl;
    Mat h =cv::findHomography(PointsA,PointsB);
- //cout<<"Find Homography"<<endl<<h<<endl;
 
     Mat inverse=h.inv();
-    Mat im_dst= cv::Mat::zeros(frameB.rows, frameB.cols, frameA.type());
-    //getMatrixA(PointsA);
-    //getMatrixB(PointsB);
-    Mat matTransFormed= getMatrix_X(getMatrix_PseudoInverse(getMatrixA(PointsA)), getMatrixB(PointsB));
-    double theta =getaCos(matTransFormed.at<double>(0,0));
+    Mat im_dst =cv::Mat::zeros(frameA.size(),frameA.type());
+
     
+   Mat matrixA, matrixB,pseudoInvMat,matTransFormed, matFinalTransform, invertra;
+   matrixA= getMatrixA(PointsA);
+   matrixB= getMatrixB(PointsB);
+   pseudoInvMat= getMatrix_PseudoInverse(matrixA);
+   matTransFormed= getMatrix_X(pseudoInvMat,matrixB);
+   double tx,ty,theta ;
+   theta =getaCos(matTransFormed.at<double>(0,0));
+   tx= matTransFormed.at<double>(2,0);
+   ty=matTransFormed.at<double>(3,0);
+   matFinalTransform =getMatrix_Transform(matTransFormed,theta,tx,ty);
+
     cout<<"Theta value: "<<endl<<theta<<endl;
-    
-//    getMatrix_Transform(matTransFormed,theta);
-    
-    warpPerspective(frameB, im_dst, getMatrix_Transform(matTransFormed,theta), frameA.size());
-    //warpPerspective(frameB, im_dst, inverse, frameA.size());
-   //warpAffine(frameB, im_dst, getMatrix_Transform(matTransFormed,theta), im_dst.size());
 
-cv::Mat diff_Image= cv::Mat::zeros(frameB.rows, frameB.cols, frameA.type());
+   warpPerspective(frameB, im_dst,matFinalTransform , im_dst.size(),WARP_INVERSE_MAP);
+   //uncomment line below line to use the result from the build-in cv::findHomography(PointsA,PointsB)
+   // warpPerspective(frameB, im_dst, inverse, im_dst.size());
 
- //cv::absdiff(frameA,im_dst,  diff_Image);
- cv::absdiff(frameA,im_dst,  diff_Image);
-//
+cv::Mat diff_Image=cv::Mat::zeros(frameA.size(),im_dst.type());;
+
+ cv::absdiff(im_dst,frameA,  diff_Image);
+
     cv::Mat foregroundMask = cv::Mat::zeros(diff_Image.rows, diff_Image.cols, CV_8UC1);
 
     float threshold = 150.0f;
@@ -112,9 +115,9 @@ cv::Mat diff_Image= cv::Mat::zeros(frameB.rows, frameB.cols, frameA.type());
 
 imshow("frameA",frameA);
 imshow("frameB",frameB);
-imshow("Transformed",im_dst);
-imshow("Difference",diff_Image);
-imshow("real diff",foregroundMask);
+imshow("Transformed image",im_dst);
+imshow("Difference image colored",diff_Image);
+imshow("Difference image grayscaled",foregroundMask);
 
   //getFourPointsOnLines();
  waitKey();
@@ -158,9 +161,7 @@ void getFourPointsOnLines(std::vector<Point2f> & v)
 
 }
 cout<<"Number of lines: "<<lines.size()<<endl;
-//labelling();
-//imshow("source", img_original);
-//imshow("detected lines", final_image);
+
 
 }
 bool getIntersectionPoint(Point a1, Point a2, Point b1, Point b2, Point & intPnt,std::vector<Point2f> &v){
@@ -371,60 +372,51 @@ Mat getMatrixB(vector<Point2f> pointsB)
 
 Mat getMatrix_PseudoInverse(cv::Mat matrixA)
 { 
+    cv::Mat p1;
     
-    int rows =8;
-    int cols =1;
-    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
-    
-    p1=matrixA.t();
-    p1 *=matrixA;
+    p1=matrixA.t(); 
+    p1 =p1*matrixA;
     p1 = p1.inv();
-    p1 *=matrixA.t();
+    p1 =p1*matrixA.t();
+    
     return p1;
 }
 
-Mat getMatrix_X(cv::Mat inverse_matrixA, cv::Mat matrixB)
+Mat getMatrix_X(cv::Mat pseudo_inverse_matrixA, cv::Mat matrixB)
 {   
     int rows =8;
     int cols =1;
     cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
-    p1 =inverse_matrixA *matrixB;
+    /*p1 =pseudo_inverse_matrixA *matrixB;*/
     
-    cout<<"Transformed X matrix: "<<endl<<p1<<endl;
-    return p1;
+    cout<<"Transformed X matrix: "<<endl<<pseudo_inverse_matrixA*matrixB<<endl;
+    return pseudo_inverse_matrixA *matrixB;;
 }
 
-double getaCos(double c)
+float getaCos(float c)
 {
     return acos(c);
 }
 
-Mat getMatrix_Transform(cv::Mat transf, double theta)
+Mat getMatrix_Transform(cv::Mat transf, float theta, float tx, float ty)
 {   
     int rows =3;
     int cols =3;
-    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<double>::type);
+    cv::Mat p1= cv::Mat::zeros(rows, cols, cv::DataType<float>::type);
    
-   p1.at<double>(0,0) = cos(theta); 
-   p1.at<double>(0,1) = -sin(theta);
-   p1.at<double>(0,2) =  0;
+   p1.at<float>(0,0) = cos(theta); 
+   p1.at<float>(0,1) = -sin(theta);
+   p1.at<float>(0,2) =  6; //6
 
-   p1.at<double>(1,0) = sin(theta); 
-   p1.at<double>(1,1) = cos(theta);
-   p1.at<double>(1,2) = 0;
+   p1.at<float>(1,0) = sin(theta); 
+   p1.at<float>(1,1) = cos(theta);
+   p1.at<float>(1,2) = -75; //-75
 //   
-    
-  /*  p1.at<double>(0,0) = 0.9999999999; 
-   p1.at<double>(0,1) = 0.23382937339;
-   p1.at<double>(0,2) =  0;
 
-   p1.at<double>(1,0) = -0.23382937339; 
-   p1.at<double>(1,1) = 0.999999999;
-   p1.at<double>(1,2) = 0;*/
    
-   p1.at<double>(2,0) = 0; 
-   p1.at<double>(2,1) = 0;
-   p1.at<double>(2,2) = 1;
+   p1.at<float>(2,0) = 0; 
+   p1.at<float>(2,1) = 0;
+   p1.at<float>(2,2) = 1;
    
     cout<<"Transformed matrix: "<<endl<<p1<<endl;
     return p1;
