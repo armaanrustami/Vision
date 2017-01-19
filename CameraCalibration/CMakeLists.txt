@@ -1,14 +1,12 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
+project(Assignment)
 
-# This is the name of the project
-PROJECT( cppInterface  )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-# This is for recursively searching for other directories.
-# add_subdirectory (DirectoryName)
+find_package( OpenCV REQUIRED )
 
-# sources to include
-include_directories (.)
-FIND_PACKAGE( OpenCV REQUIRED )
-ADD_EXECUTABLE( cppInterface  main.cpp)
-TARGET_LINK_LIBRARIES( cppInterface ${OpenCV_LIBS} )
+add_executable(ImageListCreator imagelist_creator.cpp)
+add_executable(Calibration calibration.cpp)
 
+target_link_libraries( ImageListCreator ${OpenCV_LIBS} )
+target_link_libraries( Calibration ${OpenCV_LIBS} )
